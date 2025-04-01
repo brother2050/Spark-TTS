@@ -31,7 +31,7 @@ def initialize_model(model_dir="pretrained_models/Spark-TTS-0.5B", device=0):
     logging.info(f"Loading model from: {model_dir}")
 
     # Determine appropriate device based on platform and availability
-    if platform.system() == "Darwin":
+    if platform.system() == "Darwin" and torch.backends.mps.is_available():
         # macOS with MPS support (Apple Silicon)
         device = torch.device(f"mps:{device}")
         logging.info(f"Using MPS device: {device}")
@@ -241,7 +241,7 @@ def parse_arguments():
     parser.add_argument(
         "--server_name",
         type=str,
-        default="0.0.0.0",
+        default="127.0.0.1",
         help="Server host/IP for Gradio app."
     )
     parser.add_argument(
@@ -265,5 +265,6 @@ if __name__ == "__main__":
     # Launch Gradio with the specified server name and port
     demo.launch(
         server_name=args.server_name,
-        server_port=args.server_port
+        server_port=args.server_port,
+        share=True
     )
