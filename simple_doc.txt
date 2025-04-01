@@ -1,0 +1,3 @@
+下载模型：download.py
+使用：Python 3.10.16
+其他按：README.md操作
